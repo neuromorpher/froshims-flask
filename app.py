@@ -71,5 +71,18 @@ def registrants():
     conn.close() 
     return render_template("registrants.html", registrants=registrants)
 
+@app.route("/deregister", methods=["POST"]) 
+def deregister():
 
+    id = request.form.get("id")
+    if id:
+
+        conn = connect_db("froshims.db") 
+        conn.execute("""
+        delete from registrants where id = ?
+
+        """, id) 
+        conn.commit() 
+        conn.close()
+        return redirect("/registrants") 
 
