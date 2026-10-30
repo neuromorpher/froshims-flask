@@ -1,0 +1,4 @@
+.venv/
+froshims.db
+__pycache__/
+
