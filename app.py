@@ -21,10 +21,13 @@ def index():
 
         # Then Validate Sport 
 
-        sport = request.form.get("sport") 
-        if sport not in SPORTS:
+        sports = request.form.getlist("sport") #0.. 
 
-            return render_template("error.html", message="Invalid sport")  
+        for sport in sports: 
+
+            if sport not in SPORTS:
+
+                return render_template("error.html", message="Invalid sport")  
 
         #REGISTRANTS[name] = sport 
 
@@ -42,15 +45,18 @@ def index():
                 );
             """)
 
-            conn.execute(
-            """
-            INSERT INTO registrants(name, sport)
-            values(?, ?)
-            """,(name, sport)) 
 
-            '''
-            return render_template("success.html", name=request.form.get("name")) 
-            '''
+            for sport in sports:
+                    
+                conn.execute(
+                """
+                INSERT INTO registrants(name, sport)
+                values(?, ?)
+                """,(name, sport)) 
+
+                '''
+                return render_template("success.html", name=request.form.get("name")) 
+                '''
 
         except sqlite3.Error as e:
             print(f"Error:{e}") 
